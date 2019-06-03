@@ -32,6 +32,3 @@ with almost no backgriund prop.
 NOTE* -- This Blink detection will not work for video replay attack and will be a failure, mostly.Also
 Edge detection would give false bifurcations in many cases.
 For a perfect system architecture we can use depth detection for liveness detection.
-
-Please star the repo before using it.
-Thanks.
