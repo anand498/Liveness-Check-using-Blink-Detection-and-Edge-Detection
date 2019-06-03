@@ -15,6 +15,8 @@ Over here the shape predictor dat file and the video file parameters should
 be entered into the code.
 Then run the main.py file.
 
+The method in which it works is by  taking the video in the form of a filestream
+and checking the t
 *This file will will be ready after 3-4 days.
 Please star the repo before using it.
 Thanks.
