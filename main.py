@@ -27,14 +27,14 @@ EYE_AR_CONSEC_FRAMES = 3
 COUNTER = 0
 TOTAL = 0
 detector = dlib.get_frontal_face_detector()
-predictor = dlib.shape_predictor("shape/shape_predictor_68_face_landmarks.dat")
+predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")# dat file should be in the same directory
 
 # grab the indexes 
 (lStart, lEnd) = face_utils.FACIAL_LANDMARKS_IDXS["left_eye"]
 (rStart, rEnd) = face_utils.FACIAL_LANDMARKS_IDXS["right_eye"]
 
-print("[INFO] starting video stream thread...")
-vs = FileVideoStream("blink_detection_demo.mp4").start()
+
+vs = FileVideoStream("videopath").start()# video file name should be in the same directory
 fileStream = True
 cascPath = "haarcascade_frontalface_default.xml"
 faceCascade = cv2.CascadeClassifier(cascPath)
@@ -47,7 +47,7 @@ while ij>0:
 		break
 
 	frame = vs.read()
-	frame = imutils.resize(frame, width=600)
+	frame = imutils.resize(frame, width=800)
 	gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 	rects = detector(gray, 0)
 	
@@ -92,7 +92,7 @@ while ij>0:
 
 
 
-vidcap = cv2.VideoCapture(0)
+vidcap = cv2.VideoCapture(0)# for using webcam feed
 #vidcap = cv2.VideoCapture('blink_detection_demo2.mp4')
 success,image = vidcap.read()
 cascPath = "haarcascade_frontalface_default.xml"
