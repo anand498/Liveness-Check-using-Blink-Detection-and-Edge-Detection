@@ -1,19 +1,16 @@
 import cv2
 import numpy as np
-import numpy
+import imutils
 import PIL
 import pandas as pd
 import logging as log
 from scipy.spatial import distance as dist
-from imutils.video import FileVideoStream
-from imutils.video import VideoStream
-from imutils import face_utils
+from imutils.video import FileVideoStream,VideoStream
 import argparse
-import imutils
+from imutils import face_utils
 import time
 import dlib
 import sys
-import logging as log
 import datetime as dt
 from time import sleep
 from matplotlib import pyplot as plt
@@ -60,12 +57,14 @@ while ij>0:
 		shape = face_utils.shape_to_np(shape)
 		leftEye = shape[lStart:lEnd]
 		rightEye = shape[rStart:rEnd]
+    #calculating the eye aspect ratio
 		leftEAR = eye_aspect_ratio(leftEye)
 		rightEAR = eye_aspect_ratio(rightEye)
 
 		ear = (leftEAR + rightEAR) / 2.0
 		leftEyeHull = cv2.convexHull(leftEye)
 		rightEyeHull = cv2.convexHull(rightEye)
+    # to draw the markings along the eye of the subject
 		cv2.drawContours(frame, [leftEyeHull], -1, (0, 255, 0), 1)
 		cv2.drawContours(frame, [rightEyeHull], -1, (0, 255, 0), 1)
 
@@ -84,7 +83,7 @@ while ij>0:
 			cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
 		ij-=1
 		
-	
+	#display the frame at every instant
 	cv2.imshow("Frame", frame)
 	key = cv2.waitKey(1) & 0xFF
 	if key == ord("q"):
@@ -95,9 +94,6 @@ while ij>0:
 vidcap = cv2.VideoCapture(0)# for using webcam feed
 #vidcap = cv2.VideoCapture('blink_detection_demo2.mp4')
 success,image = vidcap.read()
-cascPath = "haarcascade_frontalface_default.xml"
-faceCascade = cv2.CascadeClassifier(cascPath)
-
 count1 = 0
 countchanges=0
 count2=10
@@ -123,6 +119,7 @@ while(count2>0):
     for (x, y, w, h) in faces:
         cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 2)
     gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+    #convert grayscale into threshold image
     ret, thresh = cv2.threshold(gray,0,255,cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
     kernel = np.ones((15,15),np.uint8)
     dilate = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel, 3)
@@ -132,8 +129,10 @@ while(count2>0):
     countchanges+=1
     img = PIL.Image.open("thresh0.jpg").convert("L")
     imgarr = numpy.array(img)
+   #normlaize the array values to 255 if >128 else set it to 0
     imgarr[imgarr > 128] = 255
     imgarr[imgarr < 128]= 0
+     # checks for the middle row of the image for detecting the value changes
     a=imgarr[250,:]
     cv2.imshow('frame',image)
     if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -145,9 +144,8 @@ for index,k in enumerate(a):
        if index+1 < len(a):
          if k != a[index+1]:
           count1+=1
-print("The count is ")
-print(count1)
-if(count1>5):
+
+if(count1>5):# set the threshold to check the number of binks by the subject
   print("This is a Fake person")
 else:
   print("This is a real person")
