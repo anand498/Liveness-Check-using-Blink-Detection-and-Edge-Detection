@@ -31,7 +31,7 @@ predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")# dat f
 (rStart, rEnd) = face_utils.FACIAL_LANDMARKS_IDXS["right_eye"]
 
 
-vs = FileVideoStream("videopath").start()# video file name should be in the same directory
+vs = FileVideoStream("/Users/anand498/Desktop/Internship@RIL/livenessdetection V1.0/blink_detection_demo2.mp4").start()# video file name should be in the same directory
 fileStream = True
 cascPath = "haarcascade_frontalface_default.xml"
 faceCascade = cv2.CascadeClassifier(cascPath)
@@ -94,16 +94,12 @@ while ij>0:
 vidcap = cv2.VideoCapture(0)# for using webcam feed
 #vidcap = cv2.VideoCapture('blink_detection_demo2.mp4')
 success,image = vidcap.read()
-count1 = 0
-countchanges=0
 count2=10
-counter=0
 while(count2>0):
     success,image = vidcap.read()
     print('Read a new frame: ', success)
-    cv2.imwrite("frame%d.jpg" % count1, image)
-    
-    img = cv2.imread('frame%d.jpg'%count1)
+    cv2.imwrite("frame.jpg", image)
+    img = cv2.imread('frame.jpg')
     if(count2==9):
        cv2.imshow("Frame", img)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -125,10 +121,9 @@ while(count2>0):
     dilate = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel, 3)
     contours,hierarchy = cv2.findContours(dilate,2,1)
     cv2.drawContours(img, contours, -1, (0,255,0), 3)
-    cv2.imwrite("thresh%d.jpg" % countchanges, thresh)
-    countchanges+=1
+    cv2.imwrite("thresh0.jpg", thresh)
     img = PIL.Image.open("thresh0.jpg").convert("L")
-    imgarr = numpy.array(img)
+    imgarr = np.array(img)
    #normlaize the array values to 255 if >128 else set it to 0
     imgarr[imgarr > 128] = 255
     imgarr[imgarr < 128]= 0
@@ -139,7 +134,7 @@ while(count2>0):
         break
     count2-=1
 
-
+count1=0
 for index,k in enumerate(a):
        if index+1 < len(a):
          if k != a[index+1]:
