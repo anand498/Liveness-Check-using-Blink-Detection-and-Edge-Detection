@@ -22,13 +22,12 @@ for more than a certain threshold the subject face could be differentiated as li
 
 
 
-EDGE DETCTION -  works by calculating the edge changes in the image array and then if the number
-of changes in the array is more than a certain value the image would be declared fake.
+EDGE DETECTION -  works by calculating the edge changes in the image array and then if the number of changes in the array is more than a certain value the image would be declared fake.
 
-Problem -  the main problem with it is that it requires the subject to be a plain background 
-with almost no backgriund prop.
+Problem -  the main problem with it is that it requires the subject to be a plain background with almost no background prop.
 
 
 NOTE* -- This Blink detection will not work for video replay attack and will be a failure, mostly.Also
 Edge detection would give false bifurcations in many cases.
 For a perfect system architecture we can use depth detection for liveness detection.
+This readme will be updated in a couple of days.
